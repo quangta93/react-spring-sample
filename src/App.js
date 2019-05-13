@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useTransition, animated, config } from 'react-spring';
+import React, { useState } from 'react';
+import { useTransition, animated } from 'react-spring';
 import styled from 'styled-components';
 import { lorem, uid } from './helpers';
 
@@ -47,9 +47,10 @@ const Container = styled.div`
   justify-content: center;
 `;
 
+const TIMEOUT_DURATION = 3000;
+
 const MessageQueue = ({ messages, remove }) => {
   const [refMap] = useState(new WeakMap());
-  // const [cancelMap] = useState(() => new WeakMap());
 
   const transitions = useTransition(
     messages,
@@ -60,11 +61,11 @@ const MessageQueue = ({ messages, remove }) => {
         opacity: 1,
         height: refMap.get(msg).offsetHeight + 15,
       }),
-      leave: msg => async (next, cancel) => {
-        // cancelMap.set(msg, cancel);
-        await next({ opacity: 0, height: 0 });
-      },
-      // onRest: () => console.log('animation stopped'),
+      leave: { opacity: 0, height: 0 },
+      onRest: item => setTimeout(() => {
+        refMap.delete(item);
+        remove(item.id);
+      }, TIMEOUT_DURATION),
     },
   );
 
