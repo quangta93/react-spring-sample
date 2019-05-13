@@ -49,8 +49,13 @@ const Container = styled.div`
 
 const TIMEOUT_DURATION = 3000;
 
-const MessageQueue = ({ messages, remove }) => {
+const MessageQueue = ({ messages, remove, timeout = TIMEOUT_DURATION }) => {
   const [refMap] = useState(new WeakMap());
+
+  const removeItem = (item) => {
+    refMap.delete(item);
+    remove(item.id);
+  };
 
   const transitions = useTransition(
     messages,
@@ -62,10 +67,7 @@ const MessageQueue = ({ messages, remove }) => {
         height: refMap.get(msg).offsetHeight + 15,
       }),
       leave: { opacity: 0, height: 0 },
-      onRest: item => setTimeout(() => {
-        refMap.delete(item);
-        remove(item.id);
-      }, TIMEOUT_DURATION),
+      onRest: item => setTimeout(() => removeItem(item), timeout),
     },
   );
 
@@ -80,7 +82,7 @@ const MessageQueue = ({ messages, remove }) => {
               e.preventDefault();
               e.stopPropagation();
 
-              remove(item.id);
+              removeItem(item);
             }}
           >
             <MessageContent ref={ref => refMap.set(item, ref)}>
@@ -106,3 +108,9 @@ export default () => {
     </Container>
   )
 }
+
+
+//     "faker": "4.1.0",
+// "http-proxy-middleware": "0.19.0",
+// "jest-dom": "3.2.2",
+// "react-testing-library": "7.0.0",
