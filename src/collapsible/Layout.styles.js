@@ -2,6 +2,12 @@ import styled from 'styled-components';
 import { animated } from 'react-spring';
 
 
+export const Link = styled(animated.div)`
+  color: #094FD1;
+  text-decoration: underline;
+  margin: 20px 30px 0 30px;
+`;
+
 export const StyledCircuitContainer = styled.div`
   display: grid;
   justify-content: center;

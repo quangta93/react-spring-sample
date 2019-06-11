@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Link,
   StyledCircuitContainer,
   StyledCircuitBox,
   StyledCircuitList,
@@ -47,15 +48,22 @@ const DataCard = ({ style, name, color }) => (
 
 const useRack = () => {
   const [rack, selectRack] = useState(null);
+
   const set = id => selectRack(
     (rack === id) ? null : id
   );
 
-  return [rack, set];
+  const clear = () => selectRack(null);
+
+  return [rack, set, clear];
 }
 
 export const Layout = () => {
-  const [rack, selectRack] = useRack();
+  const [rack, selectRack, clearRack] = useRack();
+
+  const linkStyle = useSpring({
+    opacity: rack ? 1 : 0,
+  });
 
   const mainCardStyle = useSpring({
     opacity: rack ? 0 : 1,
@@ -70,100 +78,106 @@ export const Layout = () => {
   const selectedRack = racks.find(({ id }) => (id === rack));
 
   return (
-    <StyledRackContainment>
-      {/* DPA */}
-      <div style={{ color: 'red' }}>
-        <StyledCircuitList>
-          {
-            racks.map(
-              ({ id, circuits }) =>
-                <CircuitBox
-                  key={circuits[0]}
-                  name={circuits[0]}
-                  selected={id === rack}
-                  onClick={() => selectRack(id)}
-                />
-            )
-          }
-        </StyledCircuitList>
-        <DataCard
-          style={circuitCardStyle}
-          color="red"
-          name={selectedRack && selectedRack.circuits[0]}
-        />
+    <div>
+      <Link style={linkStyle} onClick={clearRack}>
+        Switch To Main
+      </Link>
 
-        <StyledCircuitList>
-          {
-            racks.map(
-              ({ id, circuits }) =>
-                <CircuitBox
-                  key={circuits[1]}
-                  name={circuits[1]}
-                  selected={id === rack}
-                  onClick={() => selectRack(id)}
-                />
-            )
-          }
-        </StyledCircuitList>
-        <DataCard
-          style={circuitCardStyle}
-          color="red"
-          name={selectedRack && selectedRack.circuits[1]}
-        />
+      <StyledRackContainment>
+        {/* DPA */}
+        <div style={{ color: 'red' }}>
+          <StyledCircuitList>
+            {
+              racks.map(
+                ({ id, circuits }) =>
+                  <CircuitBox
+                    key={circuits[0]}
+                    name={circuits[0]}
+                    selected={id === rack}
+                    onClick={() => selectRack(id)}
+                  />
+              )
+            }
+          </StyledCircuitList>
+          <DataCard
+            style={circuitCardStyle}
+            color="red"
+            name={selectedRack && selectedRack.circuits[0]}
+          />
 
-        <DataCard
-          style={mainCardStyle}
-          color="red"
-          name="A-side Main"
-        />
-      </div>
+          <StyledCircuitList>
+            {
+              racks.map(
+                ({ id, circuits }) =>
+                  <CircuitBox
+                    key={circuits[1]}
+                    name={circuits[1]}
+                    selected={id === rack}
+                    onClick={() => selectRack(id)}
+                  />
+              )
+            }
+          </StyledCircuitList>
+          <DataCard
+            style={circuitCardStyle}
+            color="red"
+            name={selectedRack && selectedRack.circuits[1]}
+          />
 
-      {/* DPB */}
-      <div style={{ color: 'blue' }}>
-        <StyledCircuitList>
-          {
-            racks.map(
-              ({ id, circuits }) =>
-                <CircuitBox
-                  key={circuits[2]}
-                  name={circuits[2]}
-                  selected={id === rack}
-                  onClick={() => selectRack(id)}
-                />
-            )
-          }
-        </StyledCircuitList>
-        <DataCard
-          style={circuitCardStyle}
-          color="blue"
-          name={selectedRack && selectedRack.circuits[2]}
-        />
+          <DataCard
+            style={mainCardStyle}
+            color="red"
+            name="A-side Main"
+          />
+        </div>
 
-        <StyledCircuitList>
-          {
-            racks.map(
-              ({ id, circuits }) =>
-                <CircuitBox
-                  key={circuits[3]}
-                  name={circuits[3]}
-                  selected={id === rack}
-                  onClick={() => selectRack(id)}
-                />
-            )
-          }
-        </StyledCircuitList>
-        <DataCard
-          style={circuitCardStyle}
-          color="blue"
-          name={selectedRack && selectedRack.circuits[3]}
-        />
+        {/* DPB */}
+        <div style={{ color: 'blue' }}>
+          <StyledCircuitList>
+            {
+              racks.map(
+                ({ id, circuits }) =>
+                  <CircuitBox
+                    key={circuits[2]}
+                    name={circuits[2]}
+                    selected={id === rack}
+                    onClick={() => selectRack(id)}
+                  />
+              )
+            }
+          </StyledCircuitList>
+          <DataCard
+            style={circuitCardStyle}
+            color="blue"
+            name={selectedRack && selectedRack.circuits[2]}
+          />
 
-        <DataCard
-          style={mainCardStyle}
-          color="blue"
-          name="B-side Main"
-        />
-      </div>
-    </StyledRackContainment>
+          <StyledCircuitList>
+            {
+              racks.map(
+                ({ id, circuits }) =>
+                  <CircuitBox
+                    key={circuits[3]}
+                    name={circuits[3]}
+                    selected={id === rack}
+                    onClick={() => selectRack(id)}
+                  />
+              )
+            }
+          </StyledCircuitList>
+          <DataCard
+            style={circuitCardStyle}
+            color="blue"
+            name={selectedRack && selectedRack.circuits[3]}
+          />
+
+          <DataCard
+            style={mainCardStyle}
+            color="blue"
+            name="B-side Main"
+          />
+        </div>
+      </StyledRackContainment>
+    </div>
   );
 }
