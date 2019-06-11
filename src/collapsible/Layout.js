@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  StyledCircuitContainer,
   StyledCircuitBox,
   StyledCircuitList,
   StyledDataCard,
@@ -26,13 +27,13 @@ const CircuitBox = ({ name, selected, onClick }) => {
   });
 
   return (
-    <div onClick={onClick}>
+    <StyledCircuitContainer onClick={onClick}>
       <StyledCircuitBox selected={selected} style={boxStyle} />
 
       <animated.span style={nameStyle}>
         {name}
       </animated.span>
-    </div>
+    </StyledCircuitContainer>
   );
 };
 

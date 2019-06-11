@@ -2,6 +2,11 @@ import styled from 'styled-components';
 import { animated } from 'react-spring';
 
 
+export const StyledCircuitContainer = styled.div`
+  display: grid;
+  justify-content: center;
+`;
+
 export const StyledCircuitBox = styled(animated.div)`
   width: 60px;
   height: 60px;
