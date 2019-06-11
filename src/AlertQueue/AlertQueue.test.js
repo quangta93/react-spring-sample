@@ -3,7 +3,7 @@ import { random } from 'faker';
 import { render, fireEvent, waitForElement } from 'react-testing-library';
 import { wait, waitForElementToBeRemoved } from 'dom-testing-library';
 
-import { AlertQueue } from './App';
+import { AlertQueue } from './AlertQueue';
 
 
 describe('AlertQueue', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { AlertQueue } from './App';
+import { AlertQueue } from './AlertQueue';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<AlertQueue />, document.getElementById('root'));
