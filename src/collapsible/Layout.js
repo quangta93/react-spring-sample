@@ -22,7 +22,6 @@ const CircuitBox = ({ name, selected, onClick }) => {
   });
 
   const nameStyle = useSpring({
-    fontSize: selected ? 18 : 16,
     fontWeight: selected ? 'bold' : 'normal',
   });
 
