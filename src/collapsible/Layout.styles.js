@@ -1,11 +1,12 @@
 import styled from 'styled-components';
+import { animated } from 'react-spring';
 
 
-export const StyledCircuitBox = styled.div`
-  width: 40px;
-  height: 40px;
+export const StyledCircuitBox = styled(animated.div)`
+  width: 60px;
+  height: 60px;
   border: 1px solid #333;
-  background-color: ${props => props.selected ? 'lightgray' : 'white'}
+  margin-bottom: 5px;
 `;
 
 export const StyledCircuitList = styled.div`
@@ -15,8 +16,7 @@ export const StyledCircuitList = styled.div`
   margin: 30px;
 `;
 
-export const StyledMainDataCard = styled.div`
-  height: 350px;
+export const StyledMainDataCard = styled(animated.div)`
   border: 1px solid #333;
   margin: 30px;
 `;

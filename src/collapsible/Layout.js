@@ -1,54 +1,55 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState } from 'react';
 import {
   StyledCircuitBox,
   StyledCircuitList,
   StyledMainDataCard,
   StyledRackContainment,
 } from './Layout.styles';
-import { range } from 'lodash';
+import { useSpring, animated } from 'react-spring';
 
 
 const racks = [
-  {
-    id: 1,
-    circuits: ['TRC.06.01', '06.011.1', '06.011.4', '06.011.2'],
-  },
-  {
-    id: 2,
-    circuits: ['06.012.3', '06.012.1', '06.012.3', '06.012.2'],
-  },
-  {
-    id: 3,
-    circuits: ['06.013.3', '06.013.1', '06.013.3', '06.013.2'],
-  },
-  {
-    id: 4,
-    circuits: ['06.014.3', '06.014.1', '06.014.3', '06.014.2'],
-  },
-  {
-    id: 5,
-    circuits: ['06.015.3', '06.015.1', '06.015.3', '06.015.2'],
-  },
+  { id: 1, circuits: ['TRC.06.01', '06.011.1', '06.011.4', '06.011.2'] },
+  { id: 2, circuits: ['06.012.3', '06.012.1', '06.012.3', '06.012.2'] },
+  { id: 3, circuits: ['06.013.3', '06.013.1', '06.013.3', '06.013.2'] },
+  { id: 4, circuits: ['06.014.3', '06.014.1', '06.014.3', '06.014.2'] },
+  { id: 5, circuits: ['06.015.3', '06.015.1', '06.015.3', '06.015.2'] },
 ];
 
-const reducer = (state, action) => {
+const CircuitBox = ({ name, selected, onClick }) => {
+  const boxStyle = useSpring({
+    backgroundColor: selected ? 'lightgray' : 'white',
+  });
+
+  const nameStyle = useSpring({
+    marginTop: 10,
+    fontSize: selected ? 18 : 16,
+    fontWeight: selected ? 'bold' : 'normal',
+  });
+
+  return (
+    <div onClick={onClick}>
+      <StyledCircuitBox selected={selected} style={boxStyle} />
+
+      <animated.span style={nameStyle}>
+        {name}
+      </animated.span>
+    </div>
+  );
 };
-
-
-const CircuitBox = ({ name, selected, onClick }) => (
-  <div onClick={onClick}>
-    <StyledCircuitBox selected={selected} />
-    {name}
-  </div>
-);
 
 export const Layout = () => {
   const [rack, selectRack] = useState(null);
 
+  const mainCardStyle = useSpring({
+    opacity: rack ? 0 : 1,
+    height: rack ? 0 : 350,
+  });
+
   return (
     <StyledRackContainment>
       {/* DPA */}
-      <div>
+      <div style={{ color: 'red' }}>
         <StyledCircuitList>
           {
             racks.map(
@@ -77,11 +78,11 @@ export const Layout = () => {
           }
         </StyledCircuitList>
 
-        <StyledMainDataCard />
+        <StyledMainDataCard style={mainCardStyle} />
       </div>
 
       {/* DPB */}
-      <div>
+      <div style={{ color: 'blue' }}>
         <StyledCircuitList>
           {
             racks.map(
@@ -110,7 +111,7 @@ export const Layout = () => {
           }
         </StyledCircuitList>
 
-        <StyledMainDataCard />
+        <StyledMainDataCard style={mainCardStyle} />
       </div>
     </StyledRackContainment>
   );
