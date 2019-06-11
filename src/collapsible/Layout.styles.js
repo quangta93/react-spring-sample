@@ -16,9 +16,12 @@ export const StyledCircuitList = styled.div`
   margin: 30px;
 `;
 
-export const StyledMainDataCard = styled(animated.div)`
+export const StyledDataCard = styled(animated.div)`
   border: 1px solid #333;
   margin: 30px;
+  display: grid;
+  align-content: center;
+  justify-content: center;
 `;
 
 export const StyledRackContainment = styled.div`

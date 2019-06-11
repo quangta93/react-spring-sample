@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   StyledCircuitBox,
   StyledCircuitList,
-  StyledMainDataCard,
+  StyledDataCard,
   StyledRackContainment,
 } from './Layout.styles';
 import { useSpring, animated } from 'react-spring';
@@ -22,7 +22,6 @@ const CircuitBox = ({ name, selected, onClick }) => {
   });
 
   const nameStyle = useSpring({
-    marginTop: 10,
     fontSize: selected ? 18 : 16,
     fontWeight: selected ? 'bold' : 'normal',
   });
@@ -38,13 +37,37 @@ const CircuitBox = ({ name, selected, onClick }) => {
   );
 };
 
-export const Layout = () => {
+const DataCard = ({ style, name, color }) => (
+  <StyledDataCard style={{ ...style, color }}>
+    <strong style={{ fontSize: 20 }}>
+      { name } Data
+    </strong>
+  </StyledDataCard>
+);
+
+const useRack = () => {
   const [rack, selectRack] = useState(null);
+  const set = id => selectRack(
+    (rack === id) ? null : id
+  );
+
+  return [rack, set];
+}
+
+export const Layout = () => {
+  const [rack, selectRack] = useRack();
 
   const mainCardStyle = useSpring({
     opacity: rack ? 0 : 1,
-    height: rack ? 0 : 350,
+    height: rack ? 0 : 200,
   });
+
+  const circuitCardStyle = useSpring({
+    opacity: rack ? 1 : 0,
+    height: rack ? 200 : 0,
+  });
+
+  const selectedRack = racks.find(({ id }) => (id === rack));
 
   return (
     <StyledRackContainment>
@@ -58,11 +81,16 @@ export const Layout = () => {
                   key={circuits[0]}
                   name={circuits[0]}
                   selected={id === rack}
-                  onClick={() => selectRack(rack ? null : id)}
+                  onClick={() => selectRack(id)}
                 />
             )
           }
         </StyledCircuitList>
+        <DataCard
+          style={circuitCardStyle}
+          color="red"
+          name={selectedRack && selectedRack.circuits[0]}
+        />
 
         <StyledCircuitList>
           {
@@ -72,13 +100,22 @@ export const Layout = () => {
                   key={circuits[1]}
                   name={circuits[1]}
                   selected={id === rack}
-                  onClick={() => selectRack(rack ? null : id)}
+                  onClick={() => selectRack(id)}
                 />
             )
           }
         </StyledCircuitList>
+        <DataCard
+          style={circuitCardStyle}
+          color="red"
+          name={selectedRack && selectedRack.circuits[1]}
+        />
 
-        <StyledMainDataCard style={mainCardStyle} />
+        <DataCard
+          style={mainCardStyle}
+          color="red"
+          name="A-side Main"
+        />
       </div>
 
       {/* DPB */}
@@ -91,11 +128,16 @@ export const Layout = () => {
                   key={circuits[2]}
                   name={circuits[2]}
                   selected={id === rack}
-                  onClick={() => selectRack(rack ? null : id)}
+                  onClick={() => selectRack(id)}
                 />
             )
           }
         </StyledCircuitList>
+        <DataCard
+          style={circuitCardStyle}
+          color="blue"
+          name={selectedRack && selectedRack.circuits[2]}
+        />
 
         <StyledCircuitList>
           {
@@ -105,13 +147,22 @@ export const Layout = () => {
                   key={circuits[3]}
                   name={circuits[3]}
                   selected={id === rack}
-                  onClick={() => selectRack(rack ? null : id)}
+                  onClick={() => selectRack(id)}
                 />
             )
           }
         </StyledCircuitList>
+        <DataCard
+          style={circuitCardStyle}
+          color="blue"
+          name={selectedRack && selectedRack.circuits[3]}
+        />
 
-        <StyledMainDataCard style={mainCardStyle} />
+        <DataCard
+          style={mainCardStyle}
+          color="blue"
+          name="B-side Main"
+        />
       </div>
     </StyledRackContainment>
   );
